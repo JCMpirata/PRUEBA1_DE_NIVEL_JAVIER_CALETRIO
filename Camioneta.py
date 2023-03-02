@@ -1,6 +1,5 @@
 
 class Camioneta():
-    lista = []
     def __init__(self, color, ruedas, velocidad, cilindrada, carga):
         self.color = color
         self.ruedas = ruedas

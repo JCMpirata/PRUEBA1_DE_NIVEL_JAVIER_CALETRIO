@@ -5,4 +5,4 @@ class Motoclicleta():
         self.velocidad = velocidad
         self.cilindrada = cilindrada
     def __str__(self):
-        return "Color: % Ruedas: % Velocidad: % Cilindrada: " % self.color, self.ruedas, self.velocidad, self.cilindrada
+        return "Color: %s, Ruedas: %s, Velocidad: %s, Cilindrada: %s," % self.color, self.ruedas, self.velocidad, self.cilindrada

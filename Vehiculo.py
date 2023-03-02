@@ -16,18 +16,6 @@ class Vehiculo():
 
 
 
-    lista = []
-    with open(config.DATABASE_PATH, "r") as f:
-        reader = csv.reader
 
-
-
-
-
-
-
-
-
-    
     
 

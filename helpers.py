@@ -19,6 +19,14 @@ def leer_texto(longitud_min=0, longitud_max=100, mensaje=None):
         if len(texto) >= longitud_min and len(texto) <= longitud_max:
             return texto
         
+def leer_entero(mensaje: float):
+    print(mensaje) if mensaje else None
+    while True:
+        try:
+            return int(input("> "))
+        except ValueError:
+            print("Debe intoducir un numero")
+        
 
 def modelo_valido(modelo, lista):
     if not re.match('[a-zA-Z][0-9]$', modelo):

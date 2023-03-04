@@ -3,8 +3,8 @@ import config
 import csv
 
 class Furgoneta(FCoche.Coche):
-    def __init__(self, codigo, marca, modelo, color, ruedas, precio, velocidad, cilindrada, carga):
-        super().__init__(codigo, marca, modelo, color, ruedas, precio, velocidad, cilindrada)
+    def __init__(self, modelo, marca, color, ruedas, precio, velocidad, cilindrada, carga):
+        super().__init__(modelo, marca, color, ruedas, precio, velocidad, cilindrada)
         self.carga = carga
 
     def __str__(self):
@@ -21,24 +21,24 @@ class Furgonetas(FCoche.Coches):
                 lista.append(vehiculo)
         
         @staticmethod
-        def buscar(codigo):
+        def buscar(modelo):
             for vehiculo in Furgonetas.lista:
-                if vehiculo.codigo == codigo:
+                if vehiculo.modelo == modelo:
                     return vehiculo
                 
         @staticmethod
-        def crear(codigo, marca, modelo, color, ruedas, precio, velocidad, cilindrada, carga):
-            vehiculo = Furgoneta(codigo, marca, modelo, color, ruedas, precio, velocidad, cilindrada, carga)
+        def crear(modelo, marca, color, ruedas, precio, velocidad, cilindrada, carga):
+            vehiculo = Furgoneta(modelo, marca, color, ruedas, precio, velocidad, cilindrada, carga)
             Furgonetas.lista.append(vehiculo)
             Furgonetas.guardar()
             return vehiculo
         
         @staticmethod
-        def modificar(codigo, marca, modelo, color, ruedas, precio, velocidad, cilindrada, carga):
+        def modificar(modelo, marca, color, ruedas, precio, velocidad, cilindrada, carga):
             for indice, vehiculo in enumerate(Furgonetas.lista):
-                if vehiculo.codigo == codigo:
-                    Furgonetas.lista[indice].marca = marca
+                if vehiculo.modelo == modelo:
                     Furgonetas.lista[indice].modelo = modelo
+                    Furgonetas.lista[indice].marca = marca
                     Furgonetas.lista[indice].color = color
                     Furgonetas.lista[indice].ruedas = ruedas
                     Furgonetas.lista[indice].precio = precio
@@ -49,9 +49,9 @@ class Furgonetas(FCoche.Coches):
                     return Furgonetas.lista[indice]
                 
         @staticmethod
-        def borrar(codigo):
+        def borrar(modelo):
             for indice, vehiculo in enumerate(Furgonetas.lista):
-                if vehiculo.codigo == codigo:
+                if vehiculo.modelo == modelo:
                     vehiculo = Furgonetas.lista.pop(indice)
                     Furgonetas.guardar()
                     return vehiculo
@@ -61,6 +61,6 @@ class Furgonetas(FCoche.Coches):
             with open(config.DATABASE_PATH, 'w') as fichero:
                 writer = csv.writer(fichero, delimiter=';')
                 for vehiculo in Furgonetas.lista:
-                    writer.writerow(vehiculo.to_dict().values())
+                    writer.writerow([vehiculo.modelo, vehiculo.marca, vehiculo.color, vehiculo.ruedas, vehiculo.precio, vehiculo.velocidad, vehiculo.cilindrada, vehiculo.carga])
 
     

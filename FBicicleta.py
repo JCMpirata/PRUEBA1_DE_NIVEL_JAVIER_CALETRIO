@@ -4,15 +4,15 @@ import csv
 
 class Bicicleta(BDVehiculo.Vehiculo):
 
-    def __init__(self, codigo, marca, modelo, color, ruedas, precio, velocidad):
-        super().__init__(codigo, marca, modelo, color, ruedas, precio)
-        self.velocidad = velocidad
+    def __init__(self, modelo, marca, color, ruedas, precio, tipo):
+        super().__init__(modelo, marca, color, ruedas, precio)
+        self.tipo = tipo
 
     def __str__(self):
-        return super().__str__() + f" {self.velocidad}"
+        return super().__str__() + f" {self.tipo}"
 
     def to_dict(self):
-        return {**super().to_dict(), 'velocidad': self.velocidad}
+        return {**super().to_dict(), 'velocidad': self.tipo}
     
 class Bicicletas(BDVehiculo.Vehiculos):
     
@@ -28,29 +28,29 @@ class Bicicletas(BDVehiculo.Vehiculos):
                     return vehiculo
                 
         @staticmethod
-        def crear(codigo, marca, modelo, color, ruedas, precio, velocidad):
-            vehiculo = Bicicleta(codigo, marca, modelo, color, ruedas, precio, velocidad)
+        def crear(modelo, marca, color, ruedas, precio, tipo):
+            vehiculo = Bicicleta(modelo, marca, modelo, color, ruedas, precio, tipo)
             Bicicletas.lista.append(vehiculo)
             Bicicletas.guardar()
             return vehiculo
         
         @staticmethod
-        def modificar(codigo, marca, modelo, color, ruedas, precio, velocidad):
+        def modificar(modelo, marca, color, ruedas, precio, tipo):
             for indice, vehiculo in enumerate(Bicicletas.lista):
-                if vehiculo.codigo == codigo:
-                    Bicicletas.lista[indice].marca = marca
+                if vehiculo.modelo == modelo:
                     Bicicletas.lista[indice].modelo = modelo
+                    Bicicletas.lista[indice].marca = marca
                     Bicicletas.lista[indice].color = color
                     Bicicletas.lista[indice].ruedas = ruedas
                     Bicicletas.lista[indice].precio = precio
-                    Bicicletas.lista[indice].velocidad = velocidad
+                    Bicicletas.lista[indice].tipo = tipo
                     Bicicletas.guardar()
                     return Bicicletas.lista[indice]
                 
         @staticmethod
-        def borrar(codigo):
+        def borrar(modelo):
             for indice, vehiculo in enumerate(Bicicletas.lista):
-                if vehiculo.codigo == codigo:
+                if vehiculo.modelo == modelo:
                     vehiculo = Bicicletas.lista.pop(indice)
                     Bicicletas.guardar()
                     return vehiculo
@@ -60,4 +60,4 @@ class Bicicletas(BDVehiculo.Vehiculos):
             with open(config.DATABASE_PATH, 'w', newline='\n') as fichero:
                 writer = csv.writer(fichero, delimiter=';')
                 for vehiculo in Bicicletas.lista:
-                    writer.writerow(vehiculo.to_dict().values())
+                    writer.writerow([vehiculo.modelo, vehiculo.marca, vehiculo.color, vehiculo.ruedas, vehiculo.precio, vehiculo.tipo])

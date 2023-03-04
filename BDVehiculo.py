@@ -5,48 +5,46 @@ import config
 
 
 class Vehiculo():
-    def __init__(self, codigo, marca, modelo, ruedas: int, color, precio: float):
-        self.codigo = codigo
-        self.marca = marca
+    def __init__(self, modelo, marca, ruedas: int, color, precio: float):
         self.modelo = modelo
+        self.marca = marca
         self.ruedas = ruedas
         self.color = color
         self.precio = precio
 
     def __str__(self):
-        return f"({self.codigo}) {self.marca} {self.modelo} {self.ruedas} {self.color} {self.precio}"
+        return f"({self.modelo}) {self.marca} {self.ruedas} {self.color} {self.precio}"
     
     def to_dict(self):
-        return {'codigo': self.codigo, 'marca': self.marca, 'modelo': self.modelo, 'ruedas': self.ruedas, 'color': self.color, 'precio': self.precio}
+        return {'modelo': self.modelo, 'marca': self.marca, 'ruedas': self.ruedas, 'color': self.color, 'precio': self.precio}
     
 class Vehiculos():
     
     lista = []
     with open(config.DATABASE_PATH, newline='\n') as fichero:
         reader = csv.reader(fichero, delimiter=';')
-        for codigo, marca, modelo, color, ruedas, precio in reader:
-            vehiculo = Vehiculo(codigo, marca, modelo, color, ruedas, precio)
+        for modelo, marca, color, ruedas, precio in reader:
+            vehiculo = Vehiculo(modelo, marca, color, ruedas, precio)
             lista.append(vehiculo)
 
     @staticmethod
-    def buscar(codigo):
+    def buscar(modelo):
         for vehiculo in Vehiculos.lista:
-            if vehiculo.codigo == codigo:
+            if vehiculo.modelo == modelo:
                 return vehiculo
             
     @staticmethod
-    def crear(codigo, marca, modelo, color, ruedas, precio):
-        vehiculo = Vehiculo(codigo, marca, modelo, color, ruedas, precio)
+    def crear(modelo, marca, color, ruedas, precio):
+        vehiculo = Vehiculo(modelo, marca, color, ruedas, precio)
         Vehiculos.lista.append(vehiculo)
         Vehiculos.guardar()
         return vehiculo
     
     @staticmethod
-    def modificar(codigo, marca, modelo, color, ruedas, precio):
+    def modificar(modelo, marca, color, ruedas, precio):
         for indice, vehiculo in enumerate(Vehiculos.lista):
-            if vehiculo.codigo == codigo:
+            if vehiculo.modelo == modelo:
                 Vehiculos.lista[indice].marca = marca
-                Vehiculos.lista[indice].modelo = modelo
                 Vehiculos.lista[indice].color = color
                 Vehiculos.lista[indice].ruedas = ruedas
                 Vehiculos.lista[indice].precio = precio
@@ -54,9 +52,9 @@ class Vehiculos():
                 return Vehiculos.lista[indice]
             
     @staticmethod
-    def borrar(codigo):
+    def borrar(modelo):
         for indice, vehiculo in enumerate(Vehiculos.lista):
-            if vehiculo.codigo == codigo:
+            if vehiculo.modelo == modelo:
                 vehiculo = Vehiculos.lista.pop(indice)
                 Vehiculos.guardar()
                 return vehiculo
@@ -66,7 +64,7 @@ class Vehiculos():
         with open(config.DATABASE_PATH, 'w', newline='\n') as fichero:
             writer = csv.writer(fichero, delimiter=';')
             for vehiculo in Vehiculos.lista:
-                writer.writerow([vehiculo.codigo, vehiculo.marca, vehiculo.modelo, vehiculo.color, vehiculo.ruedas, vehiculo.precio])
+                writer.writerow([vehiculo.modelo, vehiculo.marca, vehiculo.color, vehiculo.ruedas, vehiculo.precio])
                 
     
     

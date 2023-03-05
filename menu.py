@@ -75,4 +75,51 @@ def iniciar_menu():
                     else:
                         print("Vehiculo no encontrado.")
 
+        elif opcion == '4':
+            print("Modificando un vehiculo...\n")
+            modelo = hlp.leer_texto(2, 30, "Modelo (de 2 a 30 chars)").capitalize()
+            vehiculo = bdv.Vehiculos.buscar(modelo)
+            if modelo:
+                print(vehiculo)
+                print("¿Desea modificar el vehiculo?")
+                opcion = hlp.leer_texto(1, 1, "S/N").lower()
+                if opcion == "s":
+                    vehiculo.modificar()
+                    print("Vehiculo modificado correctamente.")
+                else:
+                    print("Vehiculo no modificado.")
+            else:
+                print("Vehiculo no encontrado.")
+
+        elif opcion == '5':
+            print("Borrando un vehiculo...\n")
+            modelo = hlp.leer_texto(2, 30, "Modelo (de 2 a 30 chars)").capitalize()
+            vehiculo = bdv.Vehiculos.buscar(modelo)
+            if modelo:
+                print(vehiculo)
+                print("¿Desea borrar el vehiculo?")
+                opcion = hlp.leer_texto(1, 1, "S/N").lower()
+                if opcion == "s":
+                    vehiculo.borrar()
+                    print("Vehiculo borrado correctamente.")
+                else:
+                    print("Vehiculo no borrado.")
+            else:
+                print("Vehiculo no encontrado.")
+
+        elif opcion == '6':
+            print("Cerrando el Gestor...\n")
+            break
+
+        else:
+            print("Opcion no valida.")
+
+        input("Pulse ENTER para continuar...")
+
+            
+        
+
+
+
+
 

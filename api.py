@@ -6,6 +6,7 @@ import FBicicleta as fbi
 import FCoche as fco
 import FFurgoneta as ffu
 import FMotocicleta as fmo
+import FQuad as fqu
 import helpers as hlp
 
 headers = {"content-type": "charset=utf-8"}
@@ -57,6 +58,8 @@ async def vehiculos_crear(datos: ModeloCrearVehiculo):
         vhc = ffu.Furgonetas.crear_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
     elif datos.vehiculo == "motocicleta":
         vhc = fmo.Motocicletas.crear_moto(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+    elif datos.vehiculo == "quad":
+        vhc = fqu.Quads.crear_quad(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada, datos.tipo, datos.carga)
     if vhc:
         return JSONResponse(content=vhc.to_dict(), headers=headers)
     raise HTTPException(status_code=404, detail="Vehiculo no creado")
@@ -72,6 +75,8 @@ async def vehiculos_modificar(datos: ModeloVehiculo):
             vhc = ffu.Furgonetas.modificar_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
         elif datos.vehiculo == "motocicleta":
             vhc = fmo.Motocicletas.modificar_moto(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+        elif datos.vehiculo == "quad":
+            vhc = fqu.Quads.modificar_quad(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada, datos.tipo, datos.carga)
         if vhc:
             return JSONResponse(content=vhc.to_dict(), headers=headers)
     raise HTTPException(status_code=404, detail="Vehiculo no encontrado")

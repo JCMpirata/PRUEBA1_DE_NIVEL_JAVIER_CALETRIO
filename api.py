@@ -11,7 +11,8 @@ import helpers as hlp
 headers = {"content-type": "charset=utf-8"}
 
 class ModeloVehiculo(BaseModel):
-    modelo: constr(min_length=3, max_length=3)
+    modelo: constr(min_length=2, max_length=30)
+    vehiculo: constr(min_length=2, max_length=30)
     marca: constr(min_length=2, max_length=30)
     ruedas: int
     color: constr(min_length=2, max_length=30)
@@ -41,21 +42,21 @@ async def vehiculos():
 
 @app.get("/vehiculos/buscar/{modelo}/", tags=["Vehiculos"])
 async def vehiculos_buscar(modelo: str):
-    vehiculo = bdv.Vehiculos.buscar(modelo=modelo)
-    if not vehiculo:
+    vhc = bdv.Vehiculos.buscar(modelo=modelo)
+    if not vhc:
         raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
-    return JSONResponse(content=vehiculo.to_dict(), headers=headers)
+    return JSONResponse(content=vhc.to_dict(), headers=headers)
 
 @app.post("/vehiculos/crear/", tags=["Vehiculos"])
 async def vehiculos_crear(datos: ModeloCrearVehiculo):
-    if datos.tipo == "bicicleta":
-        vehiculo = fbi.Bicicletas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad)
-    elif datos.tipo == "coche":
-        vehiculo = fco.Coches.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
-    elif datos.tipo == "furgoneta":
-        vehiculo = ffu.Furgonetas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
-    elif datos.tipo == "motocicleta":
-        vehiculo = fmo.Motocicletas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
-    if vehiculo:
-        return JSONResponse(content=vehiculo.to_dict(), headers=headers)
+    if datos.vehiculo == "bicicleta":
+        vhc = fbi.Bicicletas.crear_bici(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad)
+    elif datos.vehiculo == "coche":
+        vhc = fco.Coches.crear_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+    elif datos.vehiculo == "furgoneta":
+        vhc = ffu.Furgonetas.crear_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
+    elif datos.vehiculo == "motocicleta":
+        vhc = fmo.Motocicletas.crear_moto(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+    if vhc:
+        return JSONResponse(content=vhc.to_dict(), headers=headers)
     raise HTTPException(status_code=404)

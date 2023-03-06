@@ -270,7 +270,7 @@ class Ventana_editar_vehiculo(Toplevel, CenterWidgetMixin):
         self.update()
 
 
-class Eliminar(Toplevel):
+class Ventana_eliminar_vehiculo(Toplevel):
     def __init__(self, master, tipo):
         super().__init__(master)
         self.master = master
@@ -312,10 +312,87 @@ class Eliminar(Toplevel):
 class Ventana_principal(Tk, CenterWidgetMixin):
     def __init__(self):
         super().__init__()
-        self.title("Vehículos")
+        self.title("Gestor de Vehículos")
         self.geometry("800x600")
-        self.resizable(False, False)
+        self.resizable(1, 1)
         self.config(bg = "white")
+        self.init_gui()
+
+    def init_gui(self):
+        frame = Frame(self, bg = "white")
+        frame.pack()
+
+        treeview = ttk.Treeview(frame)
+        treeview["columns"] = ("Modelo", "Vehiculo", "Marca", "Color", "Ruedas", "Precio", "Tipo", "Velocidad", "Cilindrada", "Carga")
+
+        treeview.column("#0", width = 0, stretch = NO)
+        treeview.column("Modelo", anchor = CENTER, width = 100)
+        treeview.column("Vehiculo", anchor = CENTER, width = 100)
+        treeview.column("Marca", anchor = CENTER, width = 100)
+        treeview.column("Color", anchor = CENTER, width = 100)
+        treeview.column("Ruedas", anchor = CENTER, width = 100)
+        treeview.column("Precio", anchor = CENTER, width = 100)
+        treeview.column("Tipo", anchor = CENTER, width = 100)
+        treeview.column("Velocidad", anchor = CENTER, width = 100)
+        treeview.column("Cilindrada", anchor = CENTER, width = 100)
+        treeview.column("Carga", anchor = CENTER, width = 100)
+
+        treeview.heading("Modelo", text = "Modelo", anchor = CENTER)
+        treeview.heading("Vehiculo", text = "Vehiculo", anchor = CENTER)
+        treeview.heading("Marca", text = "Marca", anchor = CENTER)
+        treeview.heading("Color", text = "Color", anchor = CENTER)
+        treeview.heading("Ruedas", text = "Ruedas", anchor = CENTER)
+        treeview.heading("Precio", text = "Precio", anchor = CENTER)
+        treeview.heading("Tipo", text = "Tipo", anchor = CENTER)
+        treeview.heading("Velocidad", text = "Velocidad", anchor = CENTER)
+        treeview.heading("Cilindrada", text = "Cilindrada", anchor = CENTER)
+        treeview.heading("Carga", text = "Carga", anchor = CENTER)
+
+        scrollbary = Scrollbar(frame)
+        scrollbary.pack(side = RIGHT, fill = Y)
+        treeview['yscrollcommand'] = scrollbary.set
+
+        scrollbarx = Scrollbar(frame)
+        scrollbarx.pack(side = BOTTOM, fill = X)
+        treeview['xscrollcommand'] = scrollbarx.set
+
+        for vhc in bdv.Vehiculos.lista:
+            treeview.insert(parent="", index = 'end', id = vhc.get_modelo(), values = (vhc.get_modelo(), vhc.get_tipo(), vhc.get_marca(), vhc.get_color(), vhc.get_ruedas(), vhc.get_precio(), vhc.get_tipo(), vhc.get_velocidad(), vhc.get_cilindrada(), vhc.get_carga()))
+
+        treeview.pack()
+
+        frame =  Frame(self)
+        frame.pack(pady = 20)
+
+        Button(frame, text="Crear", command=self.create).grid(row=0, column=0)
+        Button(frame, text="Modificar", command=self.edit).grid(row=0, column=1)
+        Button(frame, text="Borrar", command=self.delete).grid(row=0, column=2)
+
+        self.treeview = treeview
+
+    def create(self):
+        Ventana_crear_vehiculo(self)
+
+    def edit(self):
+        Ventana_editar_vehiculo(self)
+
+    def delete(self):
+        Ventana_eliminar_vehiculo(self)
+
+
+if __name__ == "__main__":
+    app = Ventana_principal()
+    app.mainloop()
+
+
+
+
+
+
+
+
+
+
 
         
    

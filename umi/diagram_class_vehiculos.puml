@@ -1,11 +1,29 @@
 
 @startuml
 
-vehiculo --> coche 
-vehiculo --> bicicleta
-coche --> furgoneta
-bicicleta --> motocicleta
-coche --> Quad 
-bicicleta --> Quad
+Vehiculo --|> Coche 
+Vehiculo --|> Bicicleta
+Coche --|> Furgoneta
+Bicicleta --|> Motocicleta
+Coche --|> Quad 
+Bicicleta --|> Quad
+
+Vehiculo : Modelo
+Vehiculo : Vehiculo
+Vehiculo : Marca
+Vehiculo : Color
+Vehiculo : Ruedas
+Vehiculo : Precio
+
+Coche : Velocidad
+Coche : Cilindrada
+
+Furgoneta : Carga
+
+Bicicleta : Tipo
+
+Motocicleta : Velocidad
+Motocicleta : Cilindrada
+
 
 @enduml

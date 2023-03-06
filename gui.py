@@ -313,7 +313,6 @@ class Ventana_principal(Tk, CenterWidgetMixin):
     def __init__(self):
         super().__init__()
         self.title("Gestor de Vehículos")
-        self.geometry("800x600")
         self.resizable(1, 1)
         self.config(bg = "white")
         self.init_gui()
@@ -383,6 +382,7 @@ class Ventana_principal(Tk, CenterWidgetMixin):
 if __name__ == "__main__":
     app = Ventana_principal()
     app.mainloop()
+
 
 
 

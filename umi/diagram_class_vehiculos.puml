@@ -25,5 +25,7 @@ Bicicleta : Tipo
 Motocicleta : Velocidad
 Motocicleta : Cilindrada
 
+Quad : Carga
+
 
 @enduml

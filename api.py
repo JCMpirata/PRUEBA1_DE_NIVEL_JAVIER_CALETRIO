@@ -59,4 +59,29 @@ async def vehiculos_crear(datos: ModeloCrearVehiculo):
         vhc = fmo.Motocicletas.crear_moto(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
     if vhc:
         return JSONResponse(content=vhc.to_dict(), headers=headers)
-    raise HTTPException(status_code=404)
+    raise HTTPException(status_code=404, detail="Vehiculo no creado")
+
+@app.put("/vehiculos/modificar/{modelo}/", tags=["Vehiculos"])
+async def vehiculos_modificar(datos: ModeloVehiculo):
+    if bdv.Vehiculos.buscar(datos.modelo):
+        if datos.vehiculo == "bicicleta":
+            vhc = fbi.Bicicletas.modificar_bici(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad)
+        elif datos.vehiculo == "coche":
+            vhc = fco.Coches.modificar_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+        elif datos.vehiculo == "furgoneta":
+            vhc = ffu.Furgonetas.modificar_coche(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
+        elif datos.vehiculo == "motocicleta":
+            vhc = fmo.Motocicletas.modificar_moto(datos.modelo, datos.vehiculo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+        if vhc:
+            return JSONResponse(content=vhc.to_dict(), headers=headers)
+    raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
+
+@app.delete("/vehiculos/borrar/{modelo}/", tags=["Vehiculos"])
+async def vehiculos_borrar(modelo: str):
+    if bdv.Vehiculos.buscar(modelo):
+        vhc = bdv.Vehiculos.borrar(modelo)
+        if vhc:
+            return JSONResponse(content=vhc.to_dict(), headers=headers)
+    raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
+
+print("API del Gestor de vehiculos")

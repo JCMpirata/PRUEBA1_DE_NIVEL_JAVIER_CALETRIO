@@ -1,0 +1,11 @@
+
+@startuml
+
+vehiculo --> coche 
+vehiculo --> bicicleta
+coche --> furgoneta
+bicicleta --> motocicleta
+coche --> Quad 
+bicicleta --> Quad
+
+@enduml

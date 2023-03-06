@@ -24,15 +24,15 @@ def iniciar_menu():
 
         if opcion == '1':
             print("Listando los vehiculos...\n")
-            for vehiculo in bdv.Vehiculos.lista:
-                print(vehiculo)
+            for vhc in bdv.Vehiculos.lista:
+                print(vhc)
 
         elif opcion == '2':
             print("Buscando un vehiculo...\n")
             modelo = hlp.leer_texto(2, 30, "Modelo (de 2 a 30 chars)").capitalize()
-            vehiculo = bdv.Vehiculos.buscar(modelo)
+            vhc = bdv.Vehiculos.buscar(modelo)
             if modelo:
-                print(vehiculo)
+                print(vhc)
             else:
                 print("Vehiculo no encontrado.")
 
@@ -55,37 +55,55 @@ def iniciar_menu():
             carga = hlp.leer_entero(0, 10000, "Carga (de 0 a 10000 kg)")
 
             ruedas = hlp.leer_entero(2 or 4, "Ruedas (2 o 4)")
-            if hlp.ruedas_valido(ruedas):
+            if hlp.ruedas_valido(ruedas) and hlp.vehiculo_valido(vehiculo):
                 if ruedas == 2:
                     if vehiculo == "bicicleta":
-                        fbi.Bicicletas.crear(modelo, marca, color, ruedas, precio, tipo)
+                        fbi.Bicicletas.crear_bici(modelo, vehiculo, marca, color, ruedas, precio, tipo)
                         print("Vehiculo añadido correctamente.")
                     elif vehiculo == "motocicleta":
-                        fmo.Motocicletas.crear(modelo, marca, color, ruedas, precio, tipo, velocidad, cilindrada)
+                        fmo.Motocicletas.crear_moto(modelo, vehiculo, marca, color, ruedas, precio, tipo, velocidad, cilindrada)
                         print("Vehiculo añadido correctamente.")
                     else:
                         print("Vehiculo no encontrado.")
                 elif ruedas == 4:
                     if vehiculo == "coche":
-                        fco.Coches.crear(modelo, marca, color, ruedas, precio, velocidad, cilindrada)
+                        fco.Coches.crear_coche(modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada)
                         print("Vehiculo añadido correctamente.")
                     elif vehiculo == "furgoneta":
-                        ffu.Furgonetas.crear(modelo, marca, color, ruedas, precio, velocidad, cilindrada, carga)
+                        ffu.Furgonetas.crear_furgo(modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada, carga)
                         print("Vehiculo añadido correctamente.")
                     else:
                         print("Vehiculo no encontrado.")
+            else:
+                print("Vehiculo no encontrado.")
 
         elif opcion == '4':
             print("Modificando un vehiculo...\n")
             modelo = hlp.leer_texto(2, 30, "Modelo (de 2 a 30 chars)").capitalize()
-            vehiculo = bdv.Vehiculos.buscar(modelo)
+            vhc = bdv.Vehiculos.buscar(modelo)
             if modelo:
-                print(vehiculo)
+                print(vhc)
                 print("¿Desea modificar el vehiculo?")
                 opcion = hlp.leer_texto(1, 1, "S/N").lower()
                 if opcion == "s":
-                    vehiculo.modificar()
-                    print("Vehiculo modificado correctamente.")
+                    if vhc.ruedas == 2:
+                        if vhc.vehiculo == "bicicleta":
+                            fbi.Bicicletas.modificar_bici(vhc)
+                            print("Vehiculo modificado correctamente.")
+                        elif vhc.vehiculo == "motocicleta":
+                            fmo.Motocicletas.modificar_moto(vhc)
+                            print("Vehiculo modificado correctamente.")
+                        else:
+                            print("Vehiculo no encontrado.")
+                    elif vhc.ruedas == 4:
+                        if vhc.vehiculos == "coche":
+                            fco.Coches.modificar_coche(vhc)
+                            print("Vehiculo modificado correctamente.")
+                        elif vhc.vehiculos == "furgoneta":
+                            ffu.Furgonetas.modificar_furgo(vhc)
+                            print("Vehiculo modificado correctamente.")
+                        else:
+                            print("Vehiculo no encontrado.")
                 else:
                     print("Vehiculo no modificado.")
             else:
@@ -94,14 +112,30 @@ def iniciar_menu():
         elif opcion == '5':
             print("Borrando un vehiculo...\n")
             modelo = hlp.leer_texto(2, 30, "Modelo (de 2 a 30 chars)").capitalize()
-            vehiculo = bdv.Vehiculos.buscar(modelo)
+            vhc = bdv.Vehiculos.buscar(modelo)
             if modelo:
-                print(vehiculo)
+                print(vhc)
                 print("¿Desea borrar el vehiculo?")
                 opcion = hlp.leer_texto(1, 1, "S/N").lower()
                 if opcion == "s":
-                    vehiculo.borrar()
-                    print("Vehiculo borrado correctamente.")
+                    if vhc.ruedas == 2:
+                        if vhc.vehiculo == "bicicleta":
+                            fbi.Bicicletas.borrar_bici(vhc)
+                            print("Vehiculo borrado correctamente.")
+                        elif vhc.vehiculo == "motocicleta":
+                            fmo.Motocicletas.borrar_moto(vhc)
+                            print("Vehiculo borrado correctamente.")
+                        else:
+                            print("Vehiculo no encontrado.")
+                    elif vhc.ruedas == 4:
+                        if vhc.vehiculo == "coche":
+                            fco.Coches.borrar_coche(vhc)
+                            print("Vehiculo borrado correctamente.")
+                        elif vhc.vehiculo == "furgoneta":
+                            ffu.Furgonetas.borrar_furgo(vhc)
+                            print("Vehiculo borrado correctamente.")
+                        else:
+                            print("Vehiculo no encontrado.")
                 else:
                     print("Vehiculo no borrado.")
             else:

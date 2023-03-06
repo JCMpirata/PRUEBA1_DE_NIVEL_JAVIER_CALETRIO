@@ -3,8 +3,8 @@ import csv
 import config
 
 class Motocicleta(FBicicleta.Bicicleta):
-    def __init__(self, modelo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
-        super().__init__(modelo, marca, color, ruedas, precio, tipo)
+    def __init__(self, modelo, vehiculo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
+        super().__init__(modelo, vehiculo, marca, color, ruedas, precio, tipo)
         self.velocidad = velocidad
         self.cilindrada = cilindrada
 
@@ -17,28 +17,29 @@ class Motocicleta(FBicicleta.Bicicleta):
 class Motocicletas(FBicicleta.Bicicletas):
     
         lista = []
-        for vehiculo in FBicicleta.Bicicletas.lista:
-            if isinstance(vehiculo, Motocicleta):
-                lista.append(vehiculo)
+        for vhc in FBicicleta.Bicicletas.lista:
+            if isinstance(vhc, Motocicleta):
+                lista.append(vhc)
         
         @staticmethod
-        def buscar(modelo):
-            for vehiculo in Motocicletas.lista:
-                if vehiculo.modelo == modelo:
-                    return vehiculo
+        def buscar_moto(modelo):
+            for vhc in Motocicletas.lista:
+                if vhc.modelo == modelo:
+                    return vhc
                 
         @staticmethod
-        def crear(modelo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
-            vehiculo = Motocicleta(modelo, marca, color, ruedas, precio, tipo, velocidad, cilindrada)
-            Motocicletas.lista.append(vehiculo)
-            Motocicletas.guardar()
-            return vehiculo
+        def crear_moto(modelo, vehiculo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
+            vhc = Motocicleta(modelo, vehiculo, marca, color, ruedas, precio, tipo, velocidad, cilindrada)
+            Motocicletas.lista.append(vhc)
+            Motocicletas.guardar_moto()
+            return vhc
         
         @staticmethod
-        def modificar(modelo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
-            for indice, vehiculo in enumerate(Motocicletas.lista):
-                if vehiculo.modelo == modelo:
+        def modificar_moto(modelo, vehiculo, marca, color, ruedas, precio, tipo, velocidad, cilindrada):
+            for indice, vhc in enumerate(Motocicletas.lista):
+                if vhc.modelo == modelo:
                     Motocicletas.lista[indice].modelo = modelo
+                    Motocicletas.lista[indice].vehiculo = vehiculo
                     Motocicletas.lista[indice].marca = marca
                     Motocicletas.lista[indice].color = color
                     Motocicletas.lista[indice].ruedas = ruedas
@@ -46,20 +47,20 @@ class Motocicletas(FBicicleta.Bicicletas):
                     Motocicletas.lista[indice].tipo = tipo
                     Motocicletas.lista[indice].velocidad = velocidad
                     Motocicletas.lista[indice].cilindrada = cilindrada
-                    Motocicletas.guardar()
+                    Motocicletas.guardar_moto()
                     return Motocicletas.lista[indice]
                 
         @staticmethod
-        def borrar(modelo):
-            for indice, vehiculo in enumerate(Motocicletas.lista):
-                if vehiculo.modelo == modelo:
-                    vehiculo = Motocicletas.lista.pop(indice)
-                    Motocicletas.guardar()
-                    return vehiculo
+        def borrar_moto(modelo):
+            for indice, vhc in enumerate(Motocicletas.lista):
+                if vhc.modelo == modelo:
+                    vhc = Motocicletas.lista.pop(indice)
+                    Motocicletas.guardar_moto()
+                    return vhc
                 
         @staticmethod
-        def guardar():
+        def guardar_moto():
             with open(config.DATABASE_PATH, 'w', newline='\n') as fichero:
                 writer = csv.writer(fichero, delimiter=';')
-                for vehiculo in Motocicletas.lista:
-                    writer.writerow([vehiculo.modelo, vehiculo.marca, vehiculo.color, vehiculo.ruedas, vehiculo.precio, vehiculo.tipo, vehiculo.velocidad, vehiculo.cilindrada])
+                for vhc in Motocicletas.lista:
+                    writer.writerow([vhc.modelo, vhc.vehiculo, vhc.marca, vhc.color, vhc.ruedas, vhc.precio, vhc.tipo, vhc.velocidad, vhc.cilindrada])

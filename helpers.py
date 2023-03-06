@@ -43,4 +43,10 @@ def ruedas_valido(ruedas):
         print("Ruedas incorrecto, todos los vehiculos tienen 2 o 4 ruedas.")
         return False
     return True
+
+def vehiculo_valido(vehiculo):
+    if not vehiculo == "bicicleta" and not vehiculo == "coche" and not vehiculo == "motocicleta" and not vehiculo == "furgoneta":
+        print("Vehiculo incorrecto, debe ser bicicleta, coche, motocicleta o furgoneta.")
+        return False
+    return True
             

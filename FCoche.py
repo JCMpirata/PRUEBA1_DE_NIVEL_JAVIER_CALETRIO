@@ -3,8 +3,8 @@ import config
 import csv
 
 class Coche(BDVehiculo.Vehiculo):
-    def __init__(self, modelo, marca, color, ruedas, precio, velocidad, cilindrada):
-        super().__init__(modelo, marca, color, ruedas, precio)
+    def __init__(self, modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada):
+        super().__init__(modelo, vehiculo, marca, color, ruedas, precio)
         self.velocidad = velocidad
         self.cilindrada = cilindrada
 
@@ -17,51 +17,52 @@ class Coche(BDVehiculo.Vehiculo):
 class Coches(BDVehiculo.Vehiculos):
 
     lista = []
-    for vehiculo in BDVehiculo.Vehiculos.lista:
-        if isinstance(vehiculo, Coche):
-            lista.append(vehiculo)
+    for vhc in BDVehiculo.Vehiculos.lista:
+        if isinstance(vhc, Coche):
+            lista.append(vhc)
     
     @staticmethod
-    def buscar(modelo):
-        for vehiculo in Coches.lista:
-            if vehiculo.modelo == modelo:
-                return vehiculo
+    def buscar_coche(modelo):
+        for vhc in Coches.lista:
+            if vhc.modelo == modelo:
+                return vhc
             
     @staticmethod
-    def crear(modelo, marca, color, ruedas, precio, velocidad, cilindrada):
-        vehiculo = Coche(modelo, marca, color, ruedas, precio, velocidad, cilindrada)
-        Coches.lista.append(vehiculo)
-        Coches.guardar()
-        return vehiculo
+    def crear_coche(modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada):
+        vhc = Coche(modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada)
+        Coches.lista.append(vhc)
+        Coches.guardar_coche()
+        return vhc
     
     @staticmethod
-    def modificar(modelo, marca, color, ruedas, precio, velocidad, cilindrada):
-        for indice, vehiculo in enumerate(Coches.lista):
-            if vehiculo.modelo == modelo:
+    def modificar_coche(modelo, vehiculo, marca, color, ruedas, precio, velocidad, cilindrada):
+        for indice, vhc in enumerate(Coches.lista):
+            if vhc.modelo == modelo:
                 Coches.lista[indice].modelo = modelo
+                Coches.lista[indice].vehiculo = vehiculo
                 Coches.lista[indice].marca = marca
                 Coches.lista[indice].color = color
                 Coches.lista[indice].ruedas = ruedas
                 Coches.lista[indice].precio = precio
                 Coches.lista[indice].velocidad = velocidad
                 Coches.lista[indice].cilindrada = cilindrada
-                Coches.guardar()
+                Coches.guardar_coche()
                 return Coches.lista[indice]
             
     @staticmethod
-    def borrar(modelo):
-        for indice, vehiculo in enumerate(Coches.lista):
-            if vehiculo.modelo == modelo:
-                vehiculo = Coches.lista.pop(indice)
-                Coches.guardar()
-                return vehiculo
+    def borrar_coche(modelo):
+        for indice, vhc in enumerate(Coches.lista):
+            if vhc.modelo == modelo:
+                vhc = Coches.lista.pop(indice)
+                Coches.guardar_coche()
+                return vhc
             
     @staticmethod
-    def guardar():
+    def guardar_coche():
         with open(config.DATABASE_PATH, 'w', newline='\n') as fichero:
             writer = csv.writer(fichero, delimiter=';')
-            for vehiculo in Coches.lista:
-                writer.writerow([vehiculo.modelo, vehiculo.marca, vehiculo.color, vehiculo.ruedas, vehiculo.precio, vehiculo.velocidad, vehiculo.cilindrada])
+            for vhc in Coches.lista:
+                writer.writerow([vhc.modelo, vhc.vehiculo, vhc.marca, vhc.color, vhc.ruedas, vhc.precio, vhc.velocidad, vhc.cilindrada])
 
 
     

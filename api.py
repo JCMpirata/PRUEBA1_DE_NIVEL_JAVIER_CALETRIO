@@ -38,3 +38,24 @@ app = FastAPI(
 async def vehiculos():
     content = [vehiculo.to_dict() for vehiculo in bdv.Vehiculos.lista]
     return JSONResponse(content=content, headers=headers)
+
+@app.get("/vehiculos/buscar/{modelo}/", tags=["Vehiculos"])
+async def vehiculos_buscar(modelo: str):
+    vehiculo = bdv.Vehiculos.buscar(modelo=modelo)
+    if not vehiculo:
+        raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
+    return JSONResponse(content=vehiculo.to_dict(), headers=headers)
+
+@app.post("/vehiculos/crear/", tags=["Vehiculos"])
+async def vehiculos_crear(datos: ModeloCrearVehiculo):
+    if datos.tipo == "bicicleta":
+        vehiculo = fbi.Bicicletas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad)
+    elif datos.tipo == "coche":
+        vehiculo = fco.Coches.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+    elif datos.tipo == "furgoneta":
+        vehiculo = ffu.Furgonetas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.carga)
+    elif datos.tipo == "motocicleta":
+        vehiculo = fmo.Motocicletas.crear(datos.modelo, datos.marca, datos.ruedas, datos.color, datos.precio, datos.velocidad, datos.cilindrada)
+    if vehiculo:
+        return JSONResponse(content=vehiculo.to_dict(), headers=headers)
+    raise HTTPException(status_code=404)
